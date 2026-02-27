@@ -208,13 +208,16 @@ body {
   .stats-bar { grid-template-columns: repeat(4, 1fr); }
 }
 .stats-item {
-  padding: 24px 16px;
+  padding: 20px 12px;
   text-align: center;
   border-right: 1px solid #f1f5f9;
 }
-.stats-item:nth-child(2) { border-right: none; }
+.stats-item:nth-child(even) { border-right: none; }
+.stats-item:nth-child(n+3) { border-top: 1px solid #f1f5f9; }
 @media (min-width: 768px) {
-  .stats-item:nth-child(2) { border-right: 1px solid #f1f5f9; }
+  .stats-item { padding: 24px 16px; }
+  .stats-item:nth-child(even) { border-right: 1px solid #f1f5f9; }
+  .stats-item:nth-child(n+3) { border-top: none; }
   .stats-item:last-child { border-right: none; }
 }
 

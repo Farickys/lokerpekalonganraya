@@ -1,8 +1,8 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import JobCard from '@/components/JobCard'
-import { AREAS, JOB_TYPES, CATEGORIES, EDUCATION } from '@/lib/constants'
-import { Search, SlidersHorizontal, MapPin, Filter } from 'lucide-react'
+import { AREAS, JOB_TYPES, CATEGORIES } from '@/lib/constants'
+import { Search } from 'lucide-react'
 
 // Mock jobs for all pages
 const allJobs = [
@@ -16,11 +16,12 @@ const allJobs = [
   { id:8, slug:'sales-marketing-8', title:'Sales & Marketing Officer', city:'Batang', area:'BATANG', jobType:'FULLTIME', salary:'Gaji Pokok + Komisi', salaryMin:null, salaryMax:null, category:'Marketing & Kreatif', featured:false, source:'COMPANY', createdAt: new Date('2025-01-08'), company:{name:'PT Sinar Batang', logo:null}},
 ]
 
-export default function LokerPage({ searchParams }: { searchParams: Record<string,string> }) {
-  const q = searchParams.q || ''
-  const area = searchParams.area || ''
-  const category = searchParams.category || ''
-  const jobType = searchParams.jobType || ''
+export default async function LokerPage({ searchParams }: { searchParams: Promise<Record<string,string>> }) {
+  const sp = await searchParams
+  const q = sp.q || ''
+  const area = sp.area || ''
+  const category = sp.category || ''
+  const jobType = sp.jobType || ''
 
   const filtered = allJobs.filter(j => {
     if (q && !j.title.toLowerCase().includes(q.toLowerCase()) && !j.company?.name?.toLowerCase().includes(q.toLowerCase())) return false
@@ -35,28 +36,51 @@ export default function LokerPage({ searchParams }: { searchParams: Record<strin
       <Navbar />
 
       {/* Header */}
-      <div className="hero-gradient text-white py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-bold text-2xl md:text-3xl mb-4">
+      <div className="hero-gradient text-white py-8 sm:py-10">
+        <div className="container-page">
+          <h1 className="font-bold text-xl sm:text-2xl md:text-3xl mb-4">
             {q ? `Hasil pencarian: "${q}"` : area ? `Loker di ${AREAS[area as keyof typeof AREAS] || area}` : 'Semua Lowongan Kerja'}
           </h1>
           <form method="GET" action="/loker" className="flex gap-2 max-w-2xl">
             <div className="flex-1 bg-white/10 backdrop-blur rounded-xl flex items-center gap-2 px-4 border border-white/20">
               <Search size={16} className="text-white/60 flex-shrink-0"/>
-              <input name="q" defaultValue={q} placeholder="Cari posisi atau perusahaan..." className="flex-1 bg-transparent text-white placeholder-white/50 outline-none text-sm py-3"/>
+              <input name="q" defaultValue={q} placeholder="Cari posisi atau perusahaan..." className="flex-1 bg-transparent text-white placeholder-white/50 outline-none text-sm py-3 min-w-0"/>
             </div>
             <button type="submit" className="btn-primary text-sm px-5">Cari</button>
           </form>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-6">
-          {/* Sidebar Filter */}
+      <div className="container-page py-6 sm:py-8">
+        <div className="flex flex-col lg:flex-row gap-6">
+
+          {/* Mobile Filters */}
+          <div className="lg:hidden">
+            <form method="GET" action="/loker" className="flex flex-wrap gap-2">
+              {q && <input type="hidden" name="q" value={q}/>}
+              <select name="area" defaultValue={area} className="flex-1 min-w-[140px] text-sm border border-gray-200 rounded-lg px-3 py-2.5 outline-none bg-white">
+                <option value="">Semua Area</option>
+                {Object.entries(AREAS).map(([k,v]) => <option key={k} value={k}>{v}</option>)}
+              </select>
+              <select name="jobType" defaultValue={jobType} className="flex-1 min-w-[140px] text-sm border border-gray-200 rounded-lg px-3 py-2.5 outline-none bg-white">
+                <option value="">Semua Tipe</option>
+                {Object.entries(JOB_TYPES).map(([k,v]) => <option key={k} value={k}>{v}</option>)}
+              </select>
+              <select name="category" defaultValue={category} className="flex-1 min-w-[140px] text-sm border border-gray-200 rounded-lg px-3 py-2.5 outline-none bg-white">
+                <option value="">Semua Kategori</option>
+                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+              <button type="submit" className="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{background:'var(--primary)'}}>
+                Filter
+              </button>
+            </form>
+          </div>
+
+          {/* Desktop Sidebar Filter */}
           <aside className="hidden lg:block w-64 flex-shrink-0">
             <form method="GET" action="/loker">
               {q && <input type="hidden" name="q" value={q}/>}
-              <div className="bg-white rounded-xl border border-gray-100 p-5 space-y-6">
+              <div className="bg-white rounded-xl border border-gray-100 p-5 space-y-6 sticky top-20">
                 <div>
                   <label className="font-semibold text-sm text-gray-700 block mb-3">Area</label>
                   <div className="space-y-2">
