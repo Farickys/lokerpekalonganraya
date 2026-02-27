@@ -15,6 +15,7 @@ async function findUserByEmail(email: string) {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  secret: process.env.AUTH_SECRET || 'dev-secret-please-set-AUTH_SECRET',
   providers: [
     Credentials({
       name: "credentials",

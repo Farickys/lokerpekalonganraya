@@ -16,36 +16,22 @@ const mockJobs = [
 
 export default function HomePage() {
   return (
-    <div style={{minHeight:'100vh', background:'#F8FAFC'}}>
+    <div className="min-h-screen" style={{background:'var(--bg)'}}>
       <Navbar />
 
       {/* ── HERO ── */}
       <section className="hero-gradient hero-section">
-        <div className="container-page" style={{maxWidth:'672px', textAlign:'center'}}>
-          <span style={{
-            display:'inline-block', fontSize:'11px', fontWeight:700,
-            textTransform:'uppercase', letterSpacing:'0.1em',
-            marginBottom:'1.25rem', padding:'6px 14px', borderRadius:'999px',
-            background:'rgba(245,158,11,0.2)', color:'#FCD34D',
-            border:'1px solid rgba(245,158,11,0.3)'
-          }}>
+        <div className="container-page" style={{maxWidth:672, textAlign:'center'}}>
+          <span style={{display:'inline-block', fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:20, padding:'6px 14px', borderRadius:999, background:'rgba(245,158,11,0.2)', color:'#FCD34D', border:'1px solid rgba(245,158,11,0.3)'}}>
             ✦ Portal Loker #1 Pekalongan Raya
           </span>
 
-          <h1 className="font-display" style={{
-            fontSize:'clamp(1.75rem, 5vw, 3rem)',
-            color:'white', lineHeight:1.2,
-            marginBottom:'1rem'
-          }}>
+          <h1 className="font-display" style={{fontSize:'clamp(1.75rem, 5vw, 3rem)', color:'white', lineHeight:1.2, marginBottom:16}}>
             Temukan Karir<br/>
             <em>Impianmu</em> di Pekalongan Raya
           </h1>
 
-          <p style={{
-            color:'#BFDBFE', fontSize:'clamp(0.875rem, 2vw, 1rem)',
-            marginBottom:'2rem', lineHeight:1.7,
-            maxWidth:'420px', margin:'0 auto 2rem'
-          }}>
+          <p style={{color:'#93C5FD', fontSize:14, marginBottom:32, lineHeight:1.7, maxWidth:440, marginLeft:'auto', marginRight:'auto'}}>
             Ribuan lowongan dari Kota Pekalongan, Kab. Pekalongan, Batang &amp; Pemalang — diperbarui setiap hari.
           </p>
 
@@ -54,13 +40,11 @@ export default function HomePage() {
             <div className="search-input-wrap">
               <Search size={16} style={{color:'#9CA3AF', flexShrink:0}}/>
               <input name="q" type="text" placeholder="Posisi, perusahaan, kata kunci..."
-                style={{flex:1, color:'#111827', outline:'none', fontSize:'14px',
-                  padding:'16px 0', background:'transparent', border:'none', minWidth:0}}/>
+                style={{flex:1, color:'#111827', outline:'none', fontSize:14, padding:'16px 0', background:'transparent', border:'none', minWidth:0}}/>
             </div>
             <div className="search-select-wrap">
               <MapPin size={16} style={{color:'#9CA3AF', flexShrink:0}}/>
-              <select name="area" style={{flex:1, color:'#374151', outline:'none', fontSize:'14px',
-                padding:'16px 0', background:'transparent', border:'none', minWidth:0}}>
+              <select name="area" style={{flex:1, color:'#374151', outline:'none', fontSize:14, padding:'16px 0', background:'transparent', border:'none', minWidth:0}}>
                 <option value="">Semua Area</option>
                 {Object.entries(AREAS).map(([k,v]) => <option key={k} value={k}>{v}</option>)}
               </select>
@@ -73,14 +57,10 @@ export default function HomePage() {
           </form>
 
           {/* Quick filters */}
-          <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'8px', marginTop:'4px'}}>
+          <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', gap:8}}>
             {['Tekstil & Batik','Teknologi & IT','Kuliner & F&B','Retail & Sales','Administrasi'].map(cat => (
               <Link key={cat} href={`/loker?category=${encodeURIComponent(cat)}`}
-                style={{
-                  fontSize:'12px', padding:'6px 14px', borderRadius:'999px',
-                  fontWeight:600, color:'white', textDecoration:'none',
-                  background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.2)'
-                }}>
+                style={{fontSize:12, padding:'6px 14px', borderRadius:999, fontWeight:600, color:'white', textDecoration:'none', background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.2)'}}>
                 {cat}
               </Link>
             ))}
@@ -89,18 +69,18 @@ export default function HomePage() {
       </section>
 
       {/* ── STATS ── */}
-      <section style={{background:'white', borderBottom:'1px solid #F1F5F9'}}>
-        <div className="container-page" style={{maxWidth:'768px'}}>
+      <section style={{background:'white', borderBottom:'1px solid #f1f5f9', padding:'16px 0'}}>
+        <div className="container-page" style={{maxWidth:768}}>
           <div className="stats-bar">
             {[
               {label:'Loker Aktif', value:'1.200+'},
               {label:'Perusahaan', value:'340+'},
               {label:'Kota/Kabupaten', value:'4'},
               {label:'Pelamar Terbantu', value:'8.500+'},
-            ].map(s => (
+            ].map((s) => (
               <div key={s.label} className="stats-item">
                 <div style={{fontWeight:900, fontSize:'clamp(1.25rem, 3vw, 1.875rem)', color:'var(--primary)'}}>{s.value}</div>
-                <div style={{fontSize:'12px', color:'#6B7280', marginTop:'4px', fontWeight:500}}>{s.label}</div>
+                <div style={{fontSize:12, color:'#6B7280', marginTop:4, fontWeight:500}}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -108,17 +88,14 @@ export default function HomePage() {
       </section>
 
       {/* ── LOKER TERBARU ── */}
-      <section className="section-lg">
+      <section className="section-xl">
         <div className="container-page">
           <div className="section-title-row">
             <div>
               <h2>Loker Terbaru</h2>
               <p>Diperbarui dari berbagai sumber setiap hari</p>
             </div>
-            <Link href="/loker" style={{
-              display:'flex', alignItems:'center', gap:'4px',
-              fontSize:'14px', fontWeight:700, color:'var(--primary)', textDecoration:'none'
-            }}>
+            <Link href="/loker" style={{display:'none', alignItems:'center', gap:4, fontSize:14, fontWeight:700, textDecoration:'none', color:'var(--primary)'}} className="sm-show-flex">
               Lihat semua <ChevronRight size={15}/>
             </Link>
           </div>
@@ -127,8 +104,8 @@ export default function HomePage() {
             {mockJobs.map(job => <JobCard key={job.id} job={job as any}/>)}
           </div>
 
-          <div style={{textAlign:'center', marginTop:'2rem'}}>
-            <Link href="/loker" className="btn-primary" style={{display:'inline-flex', fontSize:'14px'}}>
+          <div style={{textAlign:'center', marginTop:40}}>
+            <Link href="/loker" className="btn-primary" style={{display:'inline-flex', fontSize:14, background:'var(--primary)', color:'white'}}>
               <Briefcase size={16}/> Lihat Semua Lowongan
             </Link>
           </div>
@@ -136,7 +113,7 @@ export default function HomePage() {
       </section>
 
       {/* ── AREA ── */}
-      <section className="section-lg" style={{background:'#EFF6FF'}}>
+      <section className="section-xl" style={{background:'#EFF6FF'}}>
         <div className="container-page">
           <div className="section-header">
             <h2>Cari Loker per Wilayah</h2>
@@ -150,22 +127,13 @@ export default function HomePage() {
               {key:'PEMALANG', name:'Pemalang', count:'190+'},
             ].map(area => (
               <Link key={area.key} href={`/loker?area=${area.key}`}
-                style={{
-                  background:'white', borderRadius:'16px', padding:'20px 24px',
-                  textAlign:'center', border:'1px solid #DBEAFE',
-                  textDecoration:'none', display:'block'
-                }}>
-                <div style={{
-                  width:'48px', height:'48px', borderRadius:'12px',
-                  display:'flex', alignItems:'center', justifyContent:'center',
-                  margin:'0 auto 12px', background:'var(--primary)',
-                  boxShadow:'0 4px 12px rgba(15,76,129,0.2)'
-                }}>
+                style={{background:'white', borderRadius:16, padding:'20px 16px', textAlign:'center', border:'1px solid #BFDBFE', textDecoration:'none', display:'block', transition:'box-shadow 0.2s'}}>
+                <div style={{width:48, height:48, borderRadius:16, display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 12px', background:'var(--primary)', boxShadow:'0 4px 12px rgba(15,76,129,0.2)'}}>
                   <MapPin size={22} color="white"/>
                 </div>
-                <div style={{fontWeight:700, fontSize:'14px', color:'#1F2937', marginBottom:'4px'}}>{area.name}</div>
-                <div style={{fontSize:'12px', fontWeight:700, color:'var(--primary)', marginBottom:'4px'}}>{area.count} loker</div>
-                <div style={{fontSize:'12px', color:'#9CA3AF'}}>Lihat Loker →</div>
+                <div style={{fontWeight:700, fontSize:14, color:'#1F2937', marginBottom:4}}>{area.name}</div>
+                <div style={{fontSize:12, fontWeight:700, marginBottom:4, color:'var(--primary)'}}>{area.count} loker</div>
+                <div style={{fontSize:12, color:'#9CA3AF'}}>Lihat Loker →</div>
               </Link>
             ))}
           </div>
@@ -173,21 +141,16 @@ export default function HomePage() {
       </section>
 
       {/* ── KATEGORI ── */}
-      <section className="section-lg" style={{background:'white'}}>
+      <section className="section-xl" style={{background:'white'}}>
         <div className="container-page">
           <div className="section-header">
             <h2>Kategori Pekerjaan</h2>
             <p>Temukan loker sesuai bidang Anda</p>
           </div>
-          <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'10px'}}>
+          <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', gap:12}}>
             {CATEGORIES.map(cat => (
               <Link key={cat} href={`/loker?category=${encodeURIComponent(cat)}`}
-                style={{
-                  padding:'10px 16px', background:'#F9FAFB',
-                  border:'1px solid #E5E7EB', borderRadius:'12px',
-                  fontSize:'14px', fontWeight:600, color:'#374151',
-                  textDecoration:'none'
-                }}>
+                style={{padding:'12px 20px', background:'#F9FAFB', border:'1px solid #E5E7EB', borderRadius:12, fontSize:14, fontWeight:600, color:'#374151', textDecoration:'none'}}>
                 {cat}
               </Link>
             ))}
@@ -197,26 +160,19 @@ export default function HomePage() {
 
       {/* ── CTA ── */}
       <section className="hero-gradient section-xl">
-        <div className="container-page" style={{maxWidth:'672px', textAlign:'center'}}>
-          <Building2 size={44} color="white" style={{margin:'0 auto 1.25rem', opacity:0.7, display:'block'}}/>
-          <h2 className="font-display" style={{
-            fontSize:'clamp(1.5rem, 4vw, 2.25rem)',
-            color:'white', marginBottom:'1rem'
-          }}>
+        <div className="container-page" style={{maxWidth:672, textAlign:'center'}}>
+          <Building2 size={44} color="white" style={{margin:'0 auto 24px', opacity:0.7}}/>
+          <h2 className="font-display" style={{fontSize:'clamp(1.5rem, 4vw, 2.25rem)', color:'white', marginBottom:20}}>
             Anda Punya Lowongan?
           </h2>
-          <p style={{
-            color:'#BFDBFE', lineHeight:1.7,
-            fontSize:'clamp(0.875rem, 2vw, 1rem)',
-            maxWidth:'420px', margin:'0 auto 2rem'
-          }}>
+          <p style={{color:'#93C5FD', marginBottom:40, lineHeight:1.7, fontSize:14, maxWidth:440, marginLeft:'auto', marginRight:'auto'}}>
             Pasang lowongan gratis, jangkau ribuan pencari kerja di Pekalongan Raya. Upgrade ke Featured untuk tampil di posisi teratas &amp; otomatis dipost ke Instagram.
           </p>
-          <div style={{display:'flex', flexDirection:'column', gap:'12px', justifyContent:'center', alignItems:'center'}}>
-            <Link href="/daftar" className="btn-primary" style={{fontSize:'14px'}}>
+          <div style={{display:'flex', flexDirection:'column', gap:12, justifyContent:'center', alignItems:'center'}}>
+            <Link href="/daftar" className="btn-primary" style={{fontSize:14}}>
               <Zap size={16}/> Pasang Loker Gratis
             </Link>
-            <Link href="/daftar" className="btn-secondary" style={{fontSize:'14px'}}>
+            <Link href="/daftar" className="btn-secondary" style={{fontSize:14}}>
               Daftar Perusahaan
             </Link>
           </div>
@@ -226,33 +182,21 @@ export default function HomePage() {
       {/* ── FITUR ── */}
       <section className="section-xl" style={{background:'white'}}>
         <div className="container-page">
-          <h2 style={{
-            fontWeight:800, fontSize:'1.25rem', color:'#111827',
-            textAlign:'center', marginBottom:'2.5rem'
-          }}>
-            Kenapa LokerPekalonganRaya?
-          </h2>
+          <div className="section-header" style={{marginBottom:40}}>
+            <h2>Kenapa LokerPekalonganRaya?</h2>
+          </div>
           <div className="feature-grid">
             {[
               {icon:<Zap size={26} color="white"/>, title:'Diperbarui Setiap Hari', desc:'Loker dari Instagram, Facebook grup, dan perusahaan langsung — semua dikurasi oleh tim kami.', bg:'var(--primary)'},
               {icon:<Shield size={26} color="white"/>, title:'Loker Terverifikasi', desc:'Setiap lowongan dari perusahaan melewati proses verifikasi akun. Aman dari penipuan.', bg:'#10B981'},
               {icon:<Bell size={26} color="white"/>, title:'Notifikasi Loker Baru', desc:'Subscribe Telegram & WA untuk mendapat notifikasi loker sesuai kategori dan area pilihanmu.', bg:'#8B5CF6'},
             ].map(f => (
-              <div key={f.title} style={{
-                display:'flex', flexDirection:'column', alignItems:'center',
-                textAlign:'center', padding:'32px', borderRadius:'16px',
-                border:'1px solid #F3F4F6'
-              }}>
-                <div style={{
-                  width:'56px', height:'56px', borderRadius:'16px',
-                  display:'flex', alignItems:'center', justifyContent:'center',
-                  marginBottom:'1.25rem', boxShadow:'0 4px 16px rgba(0,0,0,0.1)',
-                  background:f.bg
-                }}>
+              <div key={f.title} style={{display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center', padding:'24px 20px', borderRadius:16, border:'1px solid #F3F4F6'}}>
+                <div style={{width:56, height:56, borderRadius:16, display:'flex', alignItems:'center', justifyContent:'center', marginBottom:20, boxShadow:'0 4px 12px rgba(0,0,0,0.1)', background:f.bg}}>
                   {f.icon}
                 </div>
-                <h3 style={{fontWeight:700, color:'#111827', marginBottom:'8px', fontSize:'15px'}}>{f.title}</h3>
-                <p style={{fontSize:'14px', color:'#6B7280', lineHeight:1.7}}>{f.desc}</p>
+                <h3 style={{fontWeight:700, color:'#111827', marginBottom:8, fontSize:15}}>{f.title}</h3>
+                <p style={{fontSize:14, color:'#6B7280', lineHeight:1.6}}>{f.desc}</p>
               </div>
             ))}
           </div>

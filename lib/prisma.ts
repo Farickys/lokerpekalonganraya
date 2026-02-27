@@ -4,11 +4,11 @@ declare global {
   var db: mysql.Pool | undefined
 }
 
-export const db: mysql.Pool = globalThis.db ?? mysql.createPool({
-  uri: process.env.DATABASE_URL,
-  waitForConnections: true,
-  connectionLimit: 10,
-})
+export const db: mysql.Pool = globalThis.db ?? mysql.createPool(
+  process.env.DATABASE_URL
+    ? { uri: process.env.DATABASE_URL, waitForConnections: true, connectionLimit: 10 }
+    : { host: '127.0.0.1', port: 3306, user: 'root', database: 'loker', waitForConnections: true, connectionLimit: 1 }
+)
 
 if (process.env.NODE_ENV !== 'production') globalThis.db = db
 

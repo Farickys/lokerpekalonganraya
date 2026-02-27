@@ -70,41 +70,41 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
   const job = mockJob // In real app: fetch from DB by slug
 
   return (
-    <div className="min-h-screen">
+    <div style={{minHeight:'100vh'}}>
       <Navbar />
 
-      <div className="container-page max-w-5xl py-6 sm:py-8">
-        <Link href="/loker" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mb-6 transition-colors">
+      <div className="container-page" style={{maxWidth:1024, paddingTop:24, paddingBottom:48}}>
+        <Link href="/loker" style={{display:'inline-flex', alignItems:'center', gap:8, fontSize:14, color:'#6B7280', textDecoration:'none', marginBottom:24}}>
           <ChevronLeft size={16}/> Kembali ke daftar loker
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="job-detail-grid">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-5">
+          <div style={{display:'flex', flexDirection:'column', gap:20}}>
             {/* Job Header Card */}
-            <div className={`bg-white rounded-2xl border p-5 sm:p-6 ${job.featured ? 'featured-glow' : 'border-gray-100'}`}>
+            <div className={job.featured ? 'featured-glow' : ''} style={{background:'white', borderRadius:16, border: job.featured ? 'none' : '1px solid #F3F4F6', padding:20}}>
               {job.featured && (
-                <span className="badge mb-3 inline-flex" style={{background:'#FEF3C7', color:'#92400E'}}>
-                  <Star size={10} className="inline mr-1 fill-yellow-600"/> Loker Unggulan
+                <span className="badge" style={{background:'#FEF3C7', color:'#92400E', marginBottom:12, display:'inline-flex'}}>
+                  <Star size={10} style={{marginRight:4}}/> Loker Unggulan
                 </span>
               )}
-              <div className="flex gap-3 sm:gap-4 items-start">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex-shrink-0 flex items-center justify-center font-bold text-white text-xl sm:text-2xl shadow-md" style={{background:'var(--primary)'}}>
+              <div style={{display:'flex', gap:12, alignItems:'flex-start'}}>
+                <div style={{width:48, height:48, borderRadius:16, flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, color:'white', fontSize:20, background:'var(--primary)', boxShadow:'0 2px 8px rgba(0,0,0,0.1)'}}>
                   {job.company.name.charAt(0)}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h1 className="font-bold text-lg sm:text-2xl text-gray-900 mb-1">{job.title}</h1>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <Link href="#" className="font-semibold text-sm hover:underline" style={{color:'var(--primary)'}}>{job.company.name}</Link>
+                <div style={{flex:1, minWidth:0}}>
+                  <h1 style={{fontWeight:700, fontSize:18, color:'#111827', marginBottom:4}}>{job.title}</h1>
+                  <div style={{display:'flex', alignItems:'center', gap:8, flexWrap:'wrap'}}>
+                    <Link href="#" style={{fontWeight:600, fontSize:14, color:'var(--primary)', textDecoration:'none'}}>{job.company.name}</Link>
                     {job.company.verified && (
-                      <span className="badge text-xs" style={{background:'#D1FAE5', color:'#065F46'}}>✓ Terverifikasi</span>
+                      <span className="badge" style={{background:'#D1FAE5', color:'#065F46', fontSize:12}}>✓ Terverifikasi</span>
                     )}
                   </div>
                 </div>
               </div>
 
               {/* Meta */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
+              <div className="job-meta-grid" style={{marginTop:20}}>
                 {[
                   { icon:<MapPin size={14}/>, label: AREAS[job.area as keyof typeof AREAS] || job.city },
                   { icon:<Briefcase size={14}/>, label: JOB_TYPES[job.jobType as keyof typeof JOB_TYPES] },
@@ -113,122 +113,120 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                   { icon:<Calendar size={14}/>, label: `Dipost: ${timeAgo(job.createdAt)}` },
                   { icon:<Calendar size={14}/>, label: `Berlaku hingga: ${new Date(job.expiredAt!).toLocaleDateString('id-ID', {day:'numeric',month:'short',year:'numeric'})}` },
                 ].map((m,i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                    <span className="text-blue-600 flex-shrink-0">{m.icon}</span>
-                    <span className="truncate">{m.label}</span>
+                  <div key={i} style={{display:'flex', alignItems:'center', gap:8, fontSize:14, color:'#4B5563'}}>
+                    <span style={{color:'#2563EB', flexShrink:0}}>{m.icon}</span>
+                    <span style={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{m.label}</span>
                   </div>
                 ))}
               </div>
 
               {/* Salary */}
-              <div className="mt-4 p-4 rounded-xl" style={{background:'#F0F7FF'}}>
-                <span className="text-sm text-gray-500">Gaji / Upah</span>
-                <div className="font-bold text-lg sm:text-xl mt-1" style={{color:'var(--primary)'}}>
+              <div style={{marginTop:16, padding:16, borderRadius:12, background:'#F0F7FF'}}>
+                <span style={{fontSize:14, color:'#6B7280'}}>Gaji / Upah</span>
+                <div style={{fontWeight:700, fontSize:18, marginTop:4, color:'var(--primary)'}}>
                   {formatSalary(job.salaryMin, job.salaryMax, job.salary)}
                 </div>
               </div>
 
               {/* Apply Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 mt-5">
+              <div className="apply-buttons" style={{marginTop:20}}>
                 {job.contactWa && (
                   <a href={`https://wa.me/${job.contactWa}?text=Halo, saya tertarik melamar posisi ${job.title} di ${job.company.name}`}
                     target="_blank" rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-white font-semibold text-sm transition-all hover:opacity-90"
-                    style={{background:'#25D366'}}>
+                    style={{flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8, padding:'12px 16px', borderRadius:12, color:'white', fontWeight:600, fontSize:14, textDecoration:'none', background:'#25D366'}}>
                     <MessageCircle size={18}/> Apply via WhatsApp
                   </a>
                 )}
                 {job.applyUrl && (
                   <a href={job.applyUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all hover:opacity-90"
-                    style={{background:'var(--primary)', color:'white'}}>
+                    style={{flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8, padding:'12px 16px', borderRadius:12, fontWeight:600, fontSize:14, textDecoration:'none', background:'var(--primary)', color:'white'}}>
                     <ExternalLink size={16}/> Apply Online
                   </a>
                 )}
-                <button className="px-4 py-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors flex-shrink-0">
+                <button style={{padding:'12px 16px', borderRadius:12, border:'1px solid #E5E7EB', color:'#6B7280', background:'white', cursor:'pointer', flexShrink:0}}>
                   <Share2 size={18}/>
                 </button>
               </div>
             </div>
 
             {/* Description */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-5 sm:p-6">
-              <h2 className="font-bold text-lg text-gray-900 mb-4">Deskripsi Pekerjaan</h2>
-              <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed whitespace-pre-line text-sm">
+            <div style={{background:'white', borderRadius:16, border:'1px solid #F3F4F6', padding:20}}>
+              <h2 style={{fontWeight:700, fontSize:18, color:'#111827', marginBottom:16}}>Deskripsi Pekerjaan</h2>
+              <div style={{fontSize:14, color:'#374151', lineHeight:1.7, whiteSpace:'pre-line'}}>
                 {job.description}
               </div>
             </div>
 
             {/* Requirements */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-5 sm:p-6">
-              <h2 className="font-bold text-lg text-gray-900 mb-4">Persyaratan</h2>
-              <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed whitespace-pre-line text-sm">
+            <div style={{background:'white', borderRadius:16, border:'1px solid #F3F4F6', padding:20}}>
+              <h2 style={{fontWeight:700, fontSize:18, color:'#111827', marginBottom:16}}>Persyaratan</h2>
+              <div style={{fontSize:14, color:'#374151', lineHeight:1.7, whiteSpace:'pre-line'}}>
                 {job.requirements}
               </div>
             </div>
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-5">
+          <div style={{display:'flex', flexDirection:'column', gap:20}}>
             {/* Company Card */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-5">
-              <h3 className="font-semibold text-gray-900 mb-4">Tentang Perusahaan</h3>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-white flex-shrink-0" style={{background:'var(--primary)'}}>
+            <div style={{background:'white', borderRadius:16, border:'1px solid #F3F4F6', padding:20}}>
+              <h3 style={{fontWeight:600, color:'#111827', marginBottom:16}}>Tentang Perusahaan</h3>
+              <div style={{display:'flex', alignItems:'center', gap:12, marginBottom:12}}>
+                <div style={{width:48, height:48, borderRadius:12, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, color:'white', flexShrink:0, background:'var(--primary)'}}>
                   {job.company.name.charAt(0)}
                 </div>
-                <div className="min-w-0">
-                  <div className="font-semibold text-sm truncate">{job.company.name}</div>
-                  {job.company.verified && <span className="text-xs" style={{color:'var(--success)'}}>✓ Terverifikasi</span>}
+                <div style={{minWidth:0}}>
+                  <div style={{fontWeight:600, fontSize:14, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{job.company.name}</div>
+                  {job.company.verified && <span style={{fontSize:12, color:'var(--success)'}}>✓ Terverifikasi</span>}
                 </div>
               </div>
-              <p className="text-xs text-gray-500 leading-relaxed mb-3">{job.company.description}</p>
-              <div className="flex items-center gap-1 text-xs text-gray-500 mb-4">
-                <MapPin size={11} className="flex-shrink-0"/> <span className="truncate">{job.company.address}</span>
+              <p style={{fontSize:12, color:'#6B7280', lineHeight:1.6, marginBottom:12}}>{job.company.description}</p>
+              <div style={{display:'flex', alignItems:'center', gap:4, fontSize:12, color:'#6B7280', marginBottom:16}}>
+                <MapPin size={11} style={{flexShrink:0}}/> <span style={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{job.company.address}</span>
               </div>
               {job.company.website && (
-                <a href={job.company.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs hover:underline" style={{color:'var(--primary)'}}>
+                <a href={job.company.website} target="_blank" rel="noopener noreferrer" style={{display:'flex', alignItems:'center', gap:4, fontSize:12, color:'var(--primary)', textDecoration:'none'}}>
                   <ExternalLink size={11}/> Kunjungi Website
                 </a>
               )}
             </div>
 
             {/* Stats */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-5">
-              <h3 className="font-semibold text-gray-900 mb-4">Statistik Loker</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Total Dilihat</span>
-                  <span className="font-semibold">{job.views} kali</span>
+            <div style={{background:'white', borderRadius:16, border:'1px solid #F3F4F6', padding:20}}>
+              <h3 style={{fontWeight:600, color:'#111827', marginBottom:16}}>Statistik Loker</h3>
+              <div style={{display:'flex', flexDirection:'column', gap:12}}>
+                <div style={{display:'flex', justifyContent:'space-between', fontSize:14}}>
+                  <span style={{color:'#6B7280'}}>Total Dilihat</span>
+                  <span style={{fontWeight:600}}>{job.views} kali</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Total Pelamar</span>
-                  <span className="font-semibold">{job.applyCount} orang</span>
+                <div style={{display:'flex', justifyContent:'space-between', fontSize:14}}>
+                  <span style={{color:'#6B7280'}}>Total Pelamar</span>
+                  <span style={{fontWeight:600}}>{job.applyCount} orang</span>
                 </div>
               </div>
             </div>
 
             {/* Share */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-5">
-              <h3 className="font-semibold text-gray-900 mb-3">Bagikan Loker</h3>
-              <div className="flex gap-2">
+            <div style={{background:'white', borderRadius:16, border:'1px solid #F3F4F6', padding:20}}>
+              <h3 style={{fontWeight:600, color:'#111827', marginBottom:12}}>Bagikan Loker</h3>
+              <div style={{display:'flex', gap:8}}>
                 <a href={`https://wa.me/?text=Loker: ${job.title} di ${job.company.name} - ${process.env.NEXT_PUBLIC_APP_URL || ''}/loker/${job.slug}`}
-                  target="_blank" className="flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-white text-xs font-medium" style={{background:'#25D366'}}>
+                  target="_blank" style={{flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:4, padding:'10px 12px', borderRadius:8, color:'white', fontSize:12, fontWeight:500, textDecoration:'none', background:'#25D366'}}>
                   <MessageCircle size={14}/> WA
                 </a>
                 <a href={`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_APP_URL || ''}/loker/${job.slug}`}
-                  target="_blank" className="flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-white text-xs font-medium" style={{background:'#1877F2'}}>
+                  target="_blank" style={{flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:4, padding:'10px 12px', borderRadius:8, color:'white', fontSize:12, fontWeight:500, textDecoration:'none', background:'#1877F2'}}>
                   <Facebook size={14}/> FB
                 </a>
               </div>
             </div>
 
             {/* Pasang Loker CTA */}
-            <div className="rounded-2xl p-5 text-white text-center" style={{background:'var(--primary)'}}>
-              <Building2 size={28} className="mx-auto mb-2 opacity-80"/>
-              <h3 className="font-bold mb-1">Punya Lowongan?</h3>
-              <p className="text-xs text-blue-100 mb-3">Pasang loker gratis & jangkau ribuan pencari kerja</p>
-              <Link href="/daftar" className="block text-center py-2 px-4 rounded-lg text-sm font-semibold transition-opacity hover:opacity-90" style={{background:'var(--accent)', color:'#0F172A'}}>
+            <div style={{borderRadius:16, padding:20, color:'white', textAlign:'center', background:'var(--primary)'}}>
+              <Building2 size={28} style={{margin:'0 auto 8px', opacity:0.8}}/>
+              <h3 style={{fontWeight:700, marginBottom:4}}>Punya Lowongan?</h3>
+              <p style={{fontSize:12, color:'#93C5FD', marginBottom:12}}>Pasang loker gratis & jangkau ribuan pencari kerja</p>
+              <Link href="/daftar" style={{display:'block', textAlign:'center', padding:'10px 16px', borderRadius:8, fontSize:14, fontWeight:600, background:'var(--accent)', color:'#0F172A', textDecoration:'none'}}>
                 Pasang Loker Gratis
               </Link>
             </div>
