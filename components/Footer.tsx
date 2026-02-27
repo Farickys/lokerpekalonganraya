@@ -45,7 +45,7 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4 text-sm">Untuk Perusahaan</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/daftar" className="hover:text-white transition-colors">Daftar Perusahaan</Link></li>
-              <li><Link href="/pasang-loker" className="hover:text-white transition-colors">Pasang Lowongan</Link></li>
+              <li><Link href="/dashboard/pasang-loker" className="hover:text-white transition-colors">Pasang Lowongan</Link></li>
               <li><Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link></li>
             </ul>
           </div>
