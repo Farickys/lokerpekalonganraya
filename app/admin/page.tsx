@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
-import { Briefcase, CheckCircle, XCircle, Clock, Eye, Users, Building2, Instagram, Facebook, TrendingUp, AlertTriangle, Search, Filter, RefreshCw, ChevronDown } from 'lucide-react'
+import { Briefcase, CheckCircle, XCircle, Clock, Eye, Building2, Instagram, Facebook, TrendingUp, AlertTriangle, RefreshCw, Menu, X } from 'lucide-react'
 
 const pendingJobs = [
   { id:3, title:'Desainer Batik', company:'PT Batik Mahkota', area:'KOTA_PEKALONGAN', category:'Tekstil & Batik', source:'COMPANY', createdAt:'16 Jan 2025 09:15' },
@@ -22,12 +22,56 @@ const sourceLabel = (s: string) => {
   return <span className="badge text-xs" style={{background:'#D1FAE5', color:'#065F46'}}>Manual/Perusahaan</span>
 }
 
+const sidebarLinks = [
+  { label:'Dashboard', icon:<TrendingUp size={16}/>, href:'/admin' },
+  { label:'Moderasi Loker', icon:<Clock size={16}/>, href:'/admin', badge:3 },
+  { label:'Semua Loker', icon:<Briefcase size={16}/>, href:'/admin/loker' },
+  { label:'Perusahaan', icon:<Building2 size={16}/>, href:'/admin/perusahaan' },
+  { label:'n8n Webhook Log', icon:<RefreshCw size={16}/>, href:'/admin/webhook' },
+  { label:'Scraping Apify', icon:<Instagram size={16}/>, href:'/admin/scraping' },
+]
+
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<'pending'|'all'|'companies'>('pending')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="min-h-screen flex" style={{background:'var(--bg)'}}>
-      {/* Admin Sidebar */}
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setSidebarOpen(false)}/>
+          <aside className="relative z-50 flex flex-col w-64 bg-gray-900 min-h-screen">
+            <div className="p-5 border-b border-gray-700 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{background:'var(--accent)'}}>
+                  <Briefcase size={16} color="#0F172A"/>
+                </div>
+                <div>
+                  <div className="font-bold text-white text-sm">LokerPekalonganRaya</div>
+                  <div className="text-xs text-gray-400">Admin Panel</div>
+                </div>
+              </div>
+              <button onClick={() => setSidebarOpen(false)} className="p-1 text-gray-400"><X size={18}/></button>
+            </div>
+            <nav className="flex-1 p-4 space-y-1">
+              {sidebarLinks.map(m => (
+                <Link key={m.label} href={m.href} onClick={() => setSidebarOpen(false)}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">
+                  {m.icon}
+                  <span className="flex-1">{m.label}</span>
+                  {m.badge && <span className="w-5 h-5 rounded-full text-xs flex items-center justify-center font-bold" style={{background:'var(--accent)', color:'#0F172A'}}>{m.badge}</span>}
+                </Link>
+              ))}
+            </nav>
+            <div className="p-4 border-t border-gray-700">
+              <Link href="/" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">← Lihat Website</Link>
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col w-64 bg-gray-900 min-h-screen fixed top-0 left-0 bottom-0">
         <div className="p-5 border-b border-gray-700">
           <div className="flex items-center gap-2">
@@ -41,14 +85,7 @@ export default function AdminPage() {
           </div>
         </div>
         <nav className="flex-1 p-4 space-y-1">
-          {[
-            { label:'Dashboard', icon:<TrendingUp size={16}/>, href:'/admin' },
-            { label:'Moderasi Loker', icon:<Clock size={16}/>, href:'/admin', badge:3 },
-            { label:'Semua Loker', icon:<Briefcase size={16}/>, href:'/admin/loker' },
-            { label:'Perusahaan', icon:<Building2 size={16}/>, href:'/admin/perusahaan' },
-            { label:'n8n Webhook Log', icon:<RefreshCw size={16}/>, href:'/admin/webhook' },
-            { label:'Scraping Apify', icon:<Instagram size={16}/>, href:'/admin/scraping' },
-          ].map(m => (
+          {sidebarLinks.map(m => (
             <Link key={m.label} href={m.href}
               className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">
               {m.icon}
@@ -62,26 +99,31 @@ export default function AdminPage() {
         </div>
       </aside>
 
-      <main className="flex-1 lg:ml-64">
+      <main className="flex-1 lg:ml-64 min-w-0">
         {/* Header */}
-        <div className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
-          <h1 className="font-bold text-lg text-gray-900">Admin Panel</h1>
+        <div className="bg-white border-b border-gray-100 px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <button className="lg:hidden p-2 rounded-xl border border-gray-100 text-gray-500 hover:bg-gray-50" onClick={() => setSidebarOpen(true)}>
+              <Menu size={18}/>
+            </button>
+            <h1 className="font-bold text-lg text-gray-900">Admin Panel</h1>
+          </div>
           <div className="flex items-center gap-2">
             <button className="flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-              <RefreshCw size={14}/> Refresh Scraping
+              <RefreshCw size={14}/> <span className="hidden sm:inline">Refresh Scraping</span>
             </button>
           </div>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-6">
           {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {stats.map(s => (
-              <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-5">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{background:s.color}}>
+              <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-5">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center mb-3" style={{background:s.color}}>
                   <span style={{color:s.iconColor}}>{s.icon}</span>
                 </div>
-                <div className="font-bold text-2xl text-gray-900">{s.value}</div>
+                <div className="font-bold text-xl sm:text-2xl text-gray-900">{s.value}</div>
                 <div className="text-xs text-gray-500 mt-1">{s.label}</div>
               </div>
             ))}
@@ -97,14 +139,14 @@ export default function AdminPage() {
 
           {/* Tabs */}
           <div className="bg-white rounded-2xl border border-gray-100">
-            <div className="flex border-b border-gray-100 px-4">
+            <div className="flex border-b border-gray-100 px-2 sm:px-4 overflow-x-auto">
               {[
                 { key:'pending', label:'Menunggu Review', count:3 },
                 { key:'all', label:'Semua Loker' },
                 { key:'companies', label:'Perusahaan' },
               ].map(t => (
                 <button key={t.key} onClick={() => setActiveTab(t.key as any)}
-                  className={`flex items-center gap-2 px-4 py-4 text-sm font-medium border-b-2 transition-colors
+                  className={`flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap
                     ${activeTab === t.key ? 'border-blue-700 text-blue-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
                   {t.label}
                   {t.count && <span className="w-5 h-5 rounded-full text-xs flex items-center justify-center font-bold" style={{background:'var(--accent)', color:'#0F172A'}}>{t.count}</span>}
@@ -116,45 +158,40 @@ export default function AdminPage() {
             {activeTab === 'pending' && (
               <div className="divide-y divide-gray-50">
                 {pendingJobs.map(job => (
-                  <div key={job.id} className="p-5">
-                    <div className="flex items-start gap-4">
+                  <div key={job.id} className="p-4 sm:p-5">
+                    <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
                       {/* Preview image for scraped */}
-                      {job.sourceImage && (
+                      {'sourceImage' in job && job.sourceImage ? (
                         <img src={job.sourceImage} alt="preview" className="w-14 h-14 rounded-xl object-cover border border-gray-100 flex-shrink-0"/>
-                      )}
-                      {!job.sourceImage && (
+                      ) : (
                         <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center font-bold text-white text-xl" style={{background:'var(--primary)'}}>
                           {(job.company || job.title).charAt(0)}
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <h3 className="font-semibold text-gray-900">{job.title}</h3>
-                            <p className="text-sm text-gray-500 mt-0.5">{job.company || 'Sumber Eksternal'} • {job.area.replace('_',' ')} • {job.category}</p>
-                            <div className="flex items-center gap-2 mt-2">
-                              {sourceLabel(job.source)}
-                              <span className="text-xs text-gray-400">{job.createdAt}</span>
-                            </div>
-                          </div>
+                        <h3 className="font-semibold text-gray-900">{job.title}</h3>
+                        <p className="text-sm text-gray-500 mt-0.5">{job.company || 'Sumber Eksternal'} • {job.area.replace('_',' ')} • {job.category}</p>
+                        <div className="flex items-center gap-2 mt-2 flex-wrap">
+                          {sourceLabel(job.source)}
+                          <span className="text-xs text-gray-400">{job.createdAt}</span>
                         </div>
                       </div>
                       {/* Actions */}
-                      <div className="flex gap-2 flex-shrink-0">
-                        <button className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors">
-                          <Eye size={14}/> Preview
+                      <div className="flex gap-2 flex-shrink-0 w-full sm:w-auto">
+                        <button className="flex-1 sm:flex-initial flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors">
+                          <Eye size={14}/> <span className="hidden sm:inline">Preview</span>
                         </button>
-                        <button className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{background:'var(--success)'}}>
-                          <CheckCircle size={14}/> Setujui
+                        <button className="flex-1 sm:flex-initial flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{background:'var(--success)'}}>
+                          <CheckCircle size={14}/> <span className="hidden sm:inline">Setujui</span>
                         </button>
-                        <button className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{background:'var(--danger)'}}>
-                          <XCircle size={14}/> Tolak
+                        <button className="flex-1 sm:flex-initial flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{background:'var(--danger)'}}>
+                          <XCircle size={14}/> <span className="hidden sm:inline">Tolak</span>
                         </button>
                       </div>
                     </div>
 
                     {/* Edit before approve */}
-                    <div className="mt-4 ml-18 grid grid-cols-2 gap-3">
+                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="text-xs text-gray-500 font-medium block mb-1">Judul (edit jika perlu)</label>
                         <input type="text" defaultValue={job.title}
@@ -171,7 +208,6 @@ export default function AdminPage() {
               </div>
             )}
 
-            {/* Webhook Log Section */}
             {activeTab === 'all' && (
               <div className="p-6 text-center text-gray-400">
                 <Briefcase size={32} className="mx-auto mb-2 opacity-40"/>
@@ -188,21 +224,21 @@ export default function AdminPage() {
           </div>
 
           {/* n8n Webhook Status */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
+          <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6">
             <h2 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
               <RefreshCw size={18} style={{color:'var(--primary)'}}/>
               Status Integrasi n8n & Apify
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
               {[
                 { label:'n8n Webhook', status:'AKTIF', desc:'Endpoint menerima data dari n8n workflow', color:'#D1FAE5', textColor:'#065F46' },
                 { label:'Apify Scraper IG', status:'AKTIF', desc:'Scraping #lokerpekalongan setiap 12 jam', color:'#D1FAE5', textColor:'#065F46' },
                 { label:'Auto-post Instagram', status:'AKTIF', desc:'Loker approved → auto post ke IG via n8n', color:'#D1FAE5', textColor:'#065F46' },
               ].map(s => (
                 <div key={s.label} className="p-4 rounded-xl border border-gray-50" style={{background:'var(--bg)'}}>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-2 gap-2">
                     <span className="font-semibold text-sm text-gray-800">{s.label}</span>
-                    <span className="badge text-xs" style={{background:s.color, color:s.textColor}}>{s.status}</span>
+                    <span className="badge text-xs flex-shrink-0" style={{background:s.color, color:s.textColor}}>{s.status}</span>
                   </div>
                   <p className="text-xs text-gray-500">{s.desc}</p>
                 </div>
