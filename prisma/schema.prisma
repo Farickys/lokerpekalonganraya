@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(COMPANY)
+  createdAt DateTime @default(now())
+  company   Company?
+}
+
+enum Role {
+  ADMIN
+  COMPANY
+}
+
+model Company {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  user        User     @relation(fields: [userId], references: [id])
+  name        String
+  logo        String?
+  description String?  @db.Text
+  website     String?
+  address     String?
+  city        String?
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  jobs        Job[]
+}
+
+model Job {
+  id            Int        @id @default(autoincrement())
+  companyId     Int?
+  company       Company?   @relation(fields: [companyId], references: [id])
+  title         String
+  slug          String     @unique
+  description   String     @db.LongText
+  requirements  String?    @db.Text
+  salary        String?
+  salaryMin     Int?
+  salaryMax     Int?
+  jobType       JobType    @default(FULLTIME)
+  education     String?
+  experience    String?
+  city          String
+  area          Area
+  address       String?
+  contactWa     String?
+  contactEmail  String?
+  applyUrl      String?
+  category      String
+  tags          String?
+  featured      Boolean    @default(false)
+  status        JobStatus  @default(PENDING)
+  source        JobSource  @default(MANUAL)
+  sourceUrl     String?
+  sourceImage   String?
+  views         Int        @default(0)
+  applyCount    Int        @default(0)
+  expiredAt     DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+enum JobType {
+  FULLTIME
+  PARTTIME
+  FREELANCE
+  INTERNSHIP
+  CONTRACT
+}
+
+enum Area {
+  KOTA_PEKALONGAN
+  KAB_PEKALONGAN
+  BATANG
+  PEMALANG
+}
+
+enum JobStatus {
+  PENDING
+  ACTIVE
+  CLOSED
+  REJECTED
+}
+
+enum JobSource {
+  MANUAL
+  COMPANY
+  SCRAPED_IG
+  SCRAPED_FB
+}
+
+model WebhookLog {
+  id        Int      @id @default(autoincrement())
+  source    String
+  payload   String   @db.LongText
+  status    String
+  message   String?
+  createdAt DateTime @default(now())
+}
