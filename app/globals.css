@@ -288,33 +288,33 @@ body {
 .area-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 @media (min-width: 768px) {
-  .area-grid { grid-template-columns: repeat(4, 1fr); }
+  .area-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
 }
 
 /* Feature grid */
 .feature-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 20px;
 }
 @media (min-width: 768px) {
-  .feature-grid { grid-template-columns: repeat(3, 1fr); }
+  .feature-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
 }
 
 /* Jobs grid */
 .jobs-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 @media (min-width: 768px) {
-  .jobs-grid { grid-template-columns: repeat(2, 1fr); }
+  .jobs-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
 }
 @media (min-width: 1024px) {
-  .jobs-grid { grid-template-columns: repeat(3, 1fr); }
+  .jobs-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
 }
 
 /* Utility spacing (fallback jika Tailwind tidak generate) */
