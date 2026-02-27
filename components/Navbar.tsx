@@ -48,15 +48,15 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-4 pb-4">
-          <div className="flex flex-col gap-3 pt-3">
-            <Link href="/loker" className="text-sm font-medium text-gray-700 py-2" onClick={() => setOpen(false)}>Cari Loker</Link>
-            <Link href="/loker?area=KOTA_PEKALONGAN" className="text-sm font-medium text-gray-700 py-2" onClick={() => setOpen(false)}>Kota Pekalongan</Link>
-            <Link href="/loker?area=BATANG" className="text-sm font-medium text-gray-700 py-2" onClick={() => setOpen(false)}>Batang</Link>
-            <Link href="/loker?area=PEMALANG" className="text-sm font-medium text-gray-700 py-2" onClick={() => setOpen(false)}>Pemalang</Link>
-            <hr />
-            <Link href="/login" className="text-sm font-semibold text-gray-700 py-2" onClick={() => setOpen(false)}>Masuk</Link>
-            <Link href="/daftar" className="btn-primary justify-center text-sm" onClick={() => setOpen(false)}>Pasang Loker Gratis</Link>
+        <div className="md:hidden" style={{background:'white', borderTop:'1px solid #F3F4F6', padding:'12px 16px 16px'}}>
+          <div style={{display:'flex', flexDirection:'column', gap:4}}>
+            <Link href="/loker" style={{fontSize:14, fontWeight:500, color:'#374151', padding:'10px 12px', borderRadius:8, textDecoration:'none'}} onClick={() => setOpen(false)}>Cari Loker</Link>
+            <Link href="/loker?area=KOTA_PEKALONGAN" style={{fontSize:14, fontWeight:500, color:'#374151', padding:'10px 12px', borderRadius:8, textDecoration:'none'}} onClick={() => setOpen(false)}>Kota Pekalongan</Link>
+            <Link href="/loker?area=BATANG" style={{fontSize:14, fontWeight:500, color:'#374151', padding:'10px 12px', borderRadius:8, textDecoration:'none'}} onClick={() => setOpen(false)}>Batang</Link>
+            <Link href="/loker?area=PEMALANG" style={{fontSize:14, fontWeight:500, color:'#374151', padding:'10px 12px', borderRadius:8, textDecoration:'none'}} onClick={() => setOpen(false)}>Pemalang</Link>
+            <hr style={{border:'none', borderTop:'1px solid #F3F4F6', margin:'4px 0'}}/>
+            <Link href="/login" style={{fontSize:14, fontWeight:600, color:'#374151', padding:'10px 12px', borderRadius:8, textDecoration:'none'}} onClick={() => setOpen(false)}>Masuk</Link>
+            <Link href="/daftar" className="btn-primary" style={{justifyContent:'center', fontSize:14, marginTop:4}} onClick={() => setOpen(false)}>Pasang Loker Gratis</Link>
           </div>
         </div>
       )}

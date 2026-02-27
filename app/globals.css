@@ -48,7 +48,7 @@ body {
   .container-page { padding-left: 2rem; padding-right: 2rem; }
 }
 
-/* ── SECTION SPACING (ganti Tailwind py-12/py-14/py-16) ── */
+/* ── SECTION SPACING ── */
 .section-md {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -58,13 +58,13 @@ body {
   padding-bottom: 3.5rem;
 }
 .section-xl {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 4.5rem;
+  padding-bottom: 4.5rem;
 }
 @media (min-width: 640px) {
   .section-md  { padding-top: 3.5rem; padding-bottom: 3.5rem; }
-  .section-lg  { padding-top: 4rem; padding-bottom: 4rem; }
-  .section-xl  { padding-top: 5rem; padding-bottom: 5rem; }
+  .section-lg  { padding-top: 4.5rem; padding-bottom: 4.5rem; }
+  .section-xl  { padding-top: 6rem; padding-bottom: 6rem; }
 }
 
 /* Hero section spacing */
@@ -73,13 +73,13 @@ body {
   padding-bottom: 4rem;
 }
 @media (min-width: 640px) {
-  .hero-section { padding-top: 5rem; padding-bottom: 5rem; }
+  .hero-section { padding-top: 5.5rem; padding-bottom: 5.5rem; }
 }
 
 /* Section header spacing */
 .section-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 .section-header h2 {
   font-size: 1.25rem;
@@ -97,7 +97,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 .section-title-row h2 {
   font-size: 1.25rem;
@@ -108,6 +108,12 @@ body {
   font-size: 0.875rem;
   color: #6B7280;
   margin-top: 0.25rem;
+}
+
+/* Show helper (for "Lihat semua" link on desktop) */
+.sm-show-flex { display: none !important; }
+@media (min-width: 640px) {
+  .sm-show-flex { display: flex !important; }
 }
 
 /* Card hover */
@@ -315,6 +321,46 @@ body {
 }
 @media (min-width: 1024px) {
   .jobs-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+}
+
+/* Job detail meta grid */
+.job-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .job-meta-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Apply buttons */
+.apply-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .apply-buttons { flex-direction: row; }
+}
+
+/* Job detail layout */
+.job-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 1024px) {
+  .job-detail-grid { grid-template-columns: 2fr 1fr; gap: 28px; }
+}
+
+/* Footer links grid */
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (min-width: 768px) {
+  .footer-links-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
 }
 
 /* Utility spacing (fallback jika Tailwind tidak generate) */
