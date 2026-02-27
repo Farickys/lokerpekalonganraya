@@ -5,7 +5,6 @@ export default auth((req) => {
   const path = req.nextUrl.pathname
   const session = req.auth
 
-  // Protect dashboard and admin routes
   if (path.startsWith('/dashboard') && !session) {
     return NextResponse.redirect(new URL('/login', req.url))
   }
