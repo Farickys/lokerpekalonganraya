@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { MapPin, Clock, Briefcase, Star, Instagram, Facebook } from 'lucide-react'
 import { AREAS, JOB_TYPES } from '@/lib/constants'
 import { formatSalary, timeAgo } from '@/lib/utils'
+import BookmarkButton from './BookmarkButton'
 
 interface JobCardProps {
   job: {
@@ -71,7 +72,10 @@ export default function JobCard({ job }: JobCardProps) {
         <div className="text-sm font-semibold" style={{color:'var(--primary)'}}>
           {formatSalary(job.salaryMin, job.salaryMax, job.salary)}
         </div>
-        <span className="badge" style={{background:'#EFF6FF', color:'#1D4ED8'}}>{job.category}</span>
+        <div style={{display:'flex', alignItems:'center', gap:8}}>
+          <span className="badge" style={{background:'#EFF6FF', color:'#1D4ED8'}}>{job.category}</span>
+          <BookmarkButton jobId={job.id} size={16} />
+        </div>
       </div>
     </Link>
   )

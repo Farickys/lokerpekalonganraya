@@ -108,3 +108,14 @@ model WebhookLog {
   message   String?
   createdAt DateTime @default(now())
 }
+
+model SavedJob {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  jobId     Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobId])
+  @@index([userId])
+  @@index([jobId])
+}
