@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Briefcase, Plus, Eye, TrendingUp, Users, CheckCircle, Clock, Edit, Trash2, Star, Building2, LogOut, Settings, Bell, Menu, X } from 'lucide-react'
+import { Briefcase, Plus, Eye, TrendingUp, Users, CheckCircle, Clock, Edit, Trash2, Star, Building2, LogOut, Settings, Bell, Menu, X, Bookmark } from 'lucide-react'
 import { useState } from 'react'
 
 const mockStats = { total: 8, active: 5, pending: 2, closed: 1, totalViews: 1245, totalApply: 87 }
@@ -27,6 +27,7 @@ const sidebarLinks = [
   { href:'/dashboard', icon:<TrendingUp size={16}/>, label:'Overview' },
   { href:'/dashboard/loker', icon:<Briefcase size={16}/>, label:'Kelola Loker' },
   { href:'/dashboard/pasang-loker', icon:<Plus size={16}/>, label:'Pasang Loker' },
+  { href:'/dashboard/saved-jobs', icon:<Bookmark size={16}/>, label:'Loker Tersimpan' },
   { href:'/dashboard/pelamar', icon:<Users size={16}/>, label:'Data Pelamar' },
   { href:'/dashboard/profil', icon:<Building2 size={16}/>, label:'Profil Perusahaan' },
   { href:'/dashboard/settings', icon:<Settings size={16}/>, label:'Pengaturan' },

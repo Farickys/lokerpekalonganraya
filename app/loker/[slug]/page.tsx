@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BookmarkButton from '@/components/BookmarkButton'
 import Link from 'next/link'
 import { MapPin, Briefcase, GraduationCap, Clock, Calendar, MessageCircle, ExternalLink, Building2, Star, ChevronLeft, Facebook, Share2 } from 'lucide-react'
 import { AREAS, JOB_TYPES } from '@/lib/constants'
@@ -143,9 +144,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                     <ExternalLink size={16}/> Apply Online
                   </a>
                 )}
-                <button style={{padding:'12px 16px', borderRadius:12, border:'1px solid #E5E7EB', color:'#6B7280', background:'white', cursor:'pointer', flexShrink:0}}>
-                  <Share2 size={18}/>
-                </button>
+                <BookmarkButton jobId={job.id} size={18} variant="button" />
               </div>
             </div>
 
