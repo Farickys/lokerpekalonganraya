@@ -25,7 +25,7 @@ export default function LoginPage() {
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
           <h1 className="font-bold text-2xl text-gray-900 mb-1">Masuk ke Akun</h1>
-          <p className="text-sm text-gray-500 mb-6">Dashboard perusahaan & pengelolaan lowongan</p>
+          <p className="text-sm text-gray-500 mb-6">Masuk sebagai perusahaan atau pencari kerja</p>
 
           <form className="space-y-4" action="/api/auth/signin/credentials" method="POST">
             <div>
@@ -50,11 +50,17 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
-            Belum punya akun?{' '}
-            <Link href="/daftar" className="font-semibold hover:underline" style={{color:'var(--primary)'}}>
-              Daftar Perusahaan
-            </Link>
+          <div className="mt-6 text-center text-sm text-gray-500 space-y-2">
+            <p>Belum punya akun?</p>
+            <div className="flex gap-3 justify-center">
+              <Link href="/daftar-pencari-kerja" className="font-semibold hover:underline" style={{color:'var(--primary)'}}>
+                Daftar Pencari Kerja
+              </Link>
+              <span className="text-gray-300">|</span>
+              <Link href="/daftar" className="font-semibold hover:underline" style={{color:'var(--primary)'}}>
+                Daftar Perusahaan
+              </Link>
+            </div>
           </div>
         </div>
 

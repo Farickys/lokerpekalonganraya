@@ -20,6 +20,7 @@ model User {
 enum Role {
   ADMIN
   COMPANY
+  JOBSEEKER
 }
 
 model Company {
@@ -118,4 +119,65 @@ model SavedJob {
   @@unique([userId, jobId])
   @@index([userId])
   @@index([jobId])
+}
+
+model JobSeekerProfile {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @unique
+  phone      String?
+  location   String?
+  bio        String?  @db.Text
+  skills     String?  @db.Text
+  experience String?
+  education  String?
+  cvUrl      String?
+  cvName     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Application {
+  id          Int               @id @default(autoincrement())
+  userId      Int
+  jobId       Int
+  coverLetter String?           @db.Text
+  status      ApplicationStatus @default(SUBMITTED)
+  notes       String?           @db.Text
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@unique([userId, jobId])
+  @@index([userId])
+  @@index([jobId])
+  @@index([status])
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  REVIEWED
+  ACCEPTED
+  REJECTED
+}
+
+model JobAlert {
+  id         Int            @id @default(autoincrement())
+  userId     Int
+  keyword    String?
+  area       String?
+  category   String?
+  jobType    String?
+  frequency  AlertFrequency @default(DAILY)
+  active     Boolean        @default(true)
+  lastSentAt DateTime?
+  createdAt  DateTime       @default(now())
+
+  @@index([userId])
+  @@index([active])
+}
+
+enum AlertFrequency {
+  DAILY
+  WEEKLY
 }
